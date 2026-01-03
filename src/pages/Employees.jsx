@@ -3,8 +3,10 @@ import { Plus, Search, Trash2, Edit } from 'lucide-react';
 import { useData } from '../context/DataContext';
 
 const Employees = () => {
-    const { employees, addEmployee, deleteEmployee } = useData();
+    const { employees, addEmployee, deleteEmployee, updateEmployee } = useData();
     const [showModal, setShowModal] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [currentId, setCurrentId] = useState(null);
 
     // Form State
     const [name, setName] = useState('');
@@ -12,29 +14,48 @@ const Employees = () => {
     const [dept, setDept] = useState('Engineering');
     const [email, setEmail] = useState('');
 
-    const handleAdd = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        addEmployee({ name, role, dept, email });
-        // Reset form
+        if (isEditing) {
+            updateEmployee(currentId, { name, role, dept, email });
+        } else {
+            addEmployee({ name, role, dept, email });
+        }
+        resetForm();
+    };
+
+    const resetForm = () => {
         setName('');
         setRole('');
         setDept('Engineering');
         setEmail('');
         setShowModal(false);
+        setIsEditing(false);
+        setCurrentId(null);
+    };
+
+    const handleEdit = (emp) => {
+        setName(emp.name);
+        setRole(emp.role);
+        setDept(emp.dept);
+        setEmail(emp.email);
+        setCurrentId(emp.id);
+        setIsEditing(true);
+        setShowModal(true);
     };
 
     return (
         <div className="fade-in">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                 <h2 style={{ fontSize: '1.5rem', fontWeight: '700' }}>Employees</h2>
-                <button className="btn-primary" onClick={() => setShowModal(true)}>
+                <button className="btn-primary" onClick={() => { resetForm(); setShowModal(true); }}>
                     <Plus size={18} /> Add Employee
                 </button>
             </div>
 
-            <div className="card-panel" style={{ overflowX: 'auto' }}>
+            <div className="card-panel" style={{ overflowX: 'auto', maxHeight: 'calc(100vh - 250px)', overflowY: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                    <thead>
+                    <thead style={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 10 }}>
                         <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
                             <th style={{ padding: '1rem', color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase' }}>Employee</th>
                             <th style={{ padding: '1rem', color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase' }}>Role</th>
@@ -72,7 +93,13 @@ const Employees = () => {
                                 </td>
                                 <td style={{ padding: '1rem' }}>
                                     <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                        <button className="btn-icon" style={{ width: '32px', height: '32px' }}><Edit size={16} /></button>
+                                        <button
+                                            className="btn-icon"
+                                            style={{ width: '32px', height: '32px' }}
+                                            onClick={() => handleEdit(emp)}
+                                        >
+                                            <Edit size={16} />
+                                        </button>
                                         <button
                                             className="btn-icon"
                                             style={{ width: '32px', height: '32px', color: 'var(--danger)' }}
@@ -96,8 +123,8 @@ const Employees = () => {
             {showModal && (
                 <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
                     <div className="card-panel fade-in" style={{ width: '500px', maxWidth: '90%' }}>
-                        <h3 style={{ marginBottom: '1.5rem', fontSize: '1.25rem' }}>Add New Employee</h3>
-                        <form onSubmit={handleAdd}>
+                        <h3 style={{ marginBottom: '1.5rem', fontSize: '1.25rem' }}>{isEditing ? 'Edit Employee' : 'Add New Employee'}</h3>
+                        <form onSubmit={handleSubmit}>
                             <div style={{ marginBottom: '1rem' }}>
                                 <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>Full Name</label>
                                 <input
@@ -146,8 +173,8 @@ const Employees = () => {
                                 </div>
                             </div>
                             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end', marginTop: '2rem' }}>
-                                <button type="button" onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)' }}>Cancel</button>
-                                <button type="submit" className="btn-primary">Save Employee</button>
+                                <button type="button" onClick={resetForm} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)' }}>Cancel</button>
+                                <button type="submit" className="btn-primary">{isEditing ? 'Update Employee' : 'Save Employee'}</button>
                             </div>
                         </form>
                     </div>

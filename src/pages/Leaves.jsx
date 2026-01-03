@@ -4,7 +4,7 @@ import { Coffee, CheckCircle, AlertCircle } from 'lucide-react';
 import { useData } from '../context/DataContext';
 
 const Leaves = () => {
-    const { leaves, requestLeave } = useData();
+    const { leaves, requestLeave, updateLeaveStatus } = useData();
     const [showModal, setShowModal] = useState(false);
 
     // Form State
@@ -14,17 +14,32 @@ const Leaves = () => {
 
     const handleRequest = (e) => {
         e.preventDefault();
-        // Simple day calculation
+
+        // Parse dates at midnight to avoid timezone issues
         const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
         const end = new Date(endDate);
-        const diffTime = Math.abs(end - start);
+        end.setHours(0, 0, 0, 0);
+
+        if (end < start) {
+            alert('End date cannot be earlier than start date!');
+            return;
+        }
+
+        // Calculate days inclusive
+        const diffTime = end.getTime() - start.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
         requestLeave({
             type,
             date: `${startDate} to ${endDate}`,
-            days: diffDays > 0 ? diffDays : 1
+            days: diffDays
         });
+
+        // Show alert if long leave
+        if (diffDays > 10) {
+            alert('Note: Leaves longer than 10 days have been flagged for manual review.');
+        }
 
         setShowModal(false);
         setStartDate('');
@@ -54,6 +69,7 @@ const Leaves = () => {
                             <th style={{ padding: '1rem', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Date</th>
                             <th style={{ padding: '1rem', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Days</th>
                             <th style={{ padding: '1rem', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Status</th>
+                            <th style={{ padding: '1rem', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,6 +88,24 @@ const Leaves = () => {
                                     }}>
                                         {leave.status}
                                     </span>
+                                </td>
+                                <td style={{ padding: '1rem' }}>
+                                    {leave.status === 'Pending' && (
+                                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                            <button
+                                                onClick={() => updateLeaveStatus(leave.id, 'Approved')}
+                                                style={{ padding: '0.35rem 0.75rem', borderRadius: 'var(--radius-md)', border: 'none', backgroundColor: '#dcfce7', color: '#166534', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '600' }}
+                                            >
+                                                Approve
+                                            </button>
+                                            <button
+                                                onClick={() => updateLeaveStatus(leave.id, 'Rejected')}
+                                                style={{ padding: '0.35rem 0.75rem', borderRadius: 'var(--radius-md)', border: 'none', backgroundColor: '#fee2e2', color: '#991b1b', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '600' }}
+                                            >
+                                                Reject
+                                            </button>
+                                        </div>
+                                    )}
                                 </td>
                             </tr>
                         ))}
