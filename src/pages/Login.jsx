@@ -21,7 +21,7 @@ const Login = () => {
             await login(email, password);
             navigate('/');
         } catch (err) {
-            setError('Invalid email or password. Try admin@nexus.com / password');
+            setError('Invalid email or password. Try admin@cluecorp.com / password');
         } finally {
             setIsSubmitting(false);
         }
@@ -49,7 +49,7 @@ const Login = () => {
                         <Layers color="white" size={28} />
                     </div>
                     <h1 style={{ fontSize: '1.75rem', fontWeight: '700', color: 'var(--text-main)' }}>Welcome Back</h1>
-                    <p style={{ color: 'var(--text-secondary)' }}>Sign in to Nexus HR Dashboard</p>
+                    <p style={{ color: 'var(--text-secondary)' }}>Sign in to ClueCorp Dashboard</p>
                 </div>
 
                 {error && (

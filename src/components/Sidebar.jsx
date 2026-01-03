@@ -11,18 +11,30 @@ const Sidebar = () => {
     ];
 
     return (
-        <nav style={{ backgroundColor: 'var(--sidebar-bg)', color: '#e0e7ff', padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <nav style={{
+            backgroundColor: 'rgba(30, 27, 75, 0.85)',
+            backdropFilter: 'blur(20px)',
+            color: '#e0e7ff',
+            padding: '1.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            borderRight: '1px solid rgba(255,255,255,0.1)'
+        }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2.5rem' }}>
                 <div style={{
                     width: '40px', height: '40px',
-                    background: 'linear-gradient(135deg, var(--primary-color), var(--primary-dark))',
-                    borderRadius: 'var(--radius-md)',
+                    borderRadius: '12px',
+                    background: 'rgba(255,255,255,0.1)',
+                    backdropFilter: 'blur(10px)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    boxShadow: '0 0 15px rgba(99, 102, 241, 0.5)'
+                    border: '1px solid rgba(255,255,255,0.2)'
                 }}>
-                    <Layers color="white" size={20} />
+                    <Layers color="#a78bfa" size={24} />
                 </div>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: '600', letterSpacing: '-0.5px' }}>Nexus HR</h2>
+                <h2 style={{ fontSize: '1.4rem', fontWeight: '700', letterSpacing: '-0.5px', color: 'white' }}>
+                    ClueCorp
+                </h2>
             </div>
 
             <ul style={{ listStyle: 'none', flex: 1 }}>

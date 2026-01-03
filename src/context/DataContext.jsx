@@ -5,11 +5,11 @@ const DataContext = createContext();
 export const useData = () => useContext(DataContext);
 
 const INITIAL_EMPLOYEES = [
-    { id: 1, name: "Sarah Jenkins", role: "Senior Designer", dept: "Design", email: "sarah@nexus.com", status: "Active" },
-    { id: 2, name: "Mike Ross", role: "Software Engineer", dept: "Engineering", email: "mike@nexus.com", status: "On Leave" },
-    { id: 3, name: "Jessica Pearson", role: "Head of HR", dept: "HR", email: "jessica@nexus.com", status: "Active" },
-    { id: 4, name: "Harvey Specter", role: "Legal Consultant", dept: "Legal", email: "harvey@nexus.com", status: "Active" },
-    { id: 5, name: "Louis Litt", role: "Financial Analyst", dept: "Finance", email: "louis@nexus.com", status: "Active" },
+    { id: 1, name: "Sarah Jenkins", role: "Senior Designer", dept: "Design", email: "sarah@cluecorp.com", status: "Active" },
+    { id: 2, name: "Mike Ross", role: "Software Engineer", dept: "Engineering", email: "mike@cluecorp.com", status: "On Leave" },
+    { id: 3, name: "Jessica Pearson", role: "Head of HR", dept: "HR", email: "jessica@cluecorp.com", status: "Active" },
+    { id: 4, name: "Harvey Specter", role: "Legal Consultant", dept: "Legal", email: "harvey@cluecorp.com", status: "Active" },
+    { id: 5, name: "Louis Litt", role: "Financial Analyst", dept: "Finance", email: "louis@cluecorp.com", status: "Active" },
 ];
 
 const INITIAL_LEAVES = [
@@ -20,7 +20,7 @@ const INITIAL_LEAVES = [
 export const DataProvider = ({ children }) => {
     const [employees, setEmployees] = useState([]);
     const [leaves, setLeaves] = useState([]);
-    const [attendance, setAttendance] = useState({ status: 'Absent', clockIn: null, clockOut: null });
+    const [attendance, setAttendance] = useState({}); // Tracking [empId]: { status, sessions }
     const [notifications, setNotifications] = useState([]);
 
     useEffect(() => {
@@ -54,20 +54,40 @@ export const DataProvider = ({ children }) => {
         ]);
     }, []);
 
-    const markAttendance = (type) => { // type: 'in' or 'out'
+    const markAttendance = (type, empId = 1) => { // type: 'in' or 'out', default to current user (admin = id 1)
         const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        let newAttendance;
 
-        if (type === 'in') {
-            newAttendance = { status: 'Present', clockIn: now, clockOut: null };
-            addNotification('You clocked in at ' + now);
-        } else {
-            newAttendance = { ...attendance, status: 'Clocked Out', clockOut: now };
-            addNotification('You clocked out at ' + now);
-        }
+        setAttendance(prev => {
+            let userAttendance = prev[empId] || { status: 'Absent', sessions: [] };
+            let newSessions = [...userAttendance.sessions];
 
-        setAttendance(newAttendance);
-        localStorage.setItem('hrms_attendance', JSON.stringify(newAttendance));
+            if (type === 'in') {
+                userAttendance.status = 'Present';
+                newSessions.push({ in: now, out: null });
+                addNotification(`Clock-in recorded for Employee #${empId} at ${now}`);
+            } else {
+                userAttendance.status = 'Clocked Out';
+                if (newSessions.length > 0) {
+                    const lastIdx = newSessions.length - 1;
+                    newSessions[lastIdx] = { ...newSessions[lastIdx], out: now };
+                }
+                addNotification(`Clock-out recorded for Employee #${empId} at ${now}`);
+            }
+
+            const updated = { ...prev, [empId]: { status: userAttendance.status, sessions: newSessions } };
+            localStorage.setItem('hrms_attendance', JSON.stringify(updated));
+            return updated;
+        });
+    };
+
+    const updateEmployeeAttendance = (empId, status) => {
+        setAttendance(prev => {
+            const userAttendance = prev[empId] || { sessions: [] };
+            const updated = { ...prev, [empId]: { ...userAttendance, status } };
+            localStorage.setItem('hrms_attendance', JSON.stringify(updated));
+            addNotification(`Attendance override: Employee #${empId} marked as ${status}`);
+            return updated;
+        });
     };
 
     const addEmployee = (employee) => {
@@ -133,7 +153,8 @@ export const DataProvider = ({ children }) => {
             updateLeaveStatus,
             addNotification,
             clearNotifications,
-            markAttendance
+            markAttendance,
+            updateEmployeeAttendance
         }}>
             {children}
         </DataContext.Provider>

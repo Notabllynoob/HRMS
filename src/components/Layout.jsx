@@ -22,7 +22,7 @@ const Layout = () => {
             <main className="flex flex-col h-full overflow-hidden">
                 <header className="flex justify-between items-center py-6 px-8 bg-transparent" style={{ padding: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                        <h1 style={{ fontSize: '1.75rem', fontWeight: '700', color: 'var(--text-main)' }}>Nexus HR</h1>
+                        <h1 style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--primary-color)', letterSpacing: '-1px' }}>ClueCorp</h1>
                         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Welcome back, {user?.name.split(' ')[0]}</p>
                     </div>
 

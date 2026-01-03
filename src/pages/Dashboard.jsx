@@ -8,11 +8,15 @@ const Dashboard = () => {
     const { employees, leaves, notifications, addNotification } = useData();
     const navigate = useNavigate();
 
+    const [showAnnounce, setShowAnnounce] = React.useState(false);
+    const [showMeeting, setShowMeeting] = React.useState(false);
+    const [inputVal, setInputVal] = React.useState('');
+
     const quickActions = [
         { label: 'Add Staff', icon: UserPlus, action: () => navigate('/employees') },
         { label: 'Reports', icon: FileText, action: () => addNotification('Generating latest HR reports...') },
-        { label: 'Meeting', icon: Calendar, action: () => addNotification('Meeting invite sent to team') },
-        { label: 'Announce', icon: Megaphone, action: () => addNotification('Broadcasting announcement...') },
+        { label: 'Meeting', icon: Calendar, action: () => setShowMeeting(true) },
+        { label: 'Announce', icon: Megaphone, action: () => setShowAnnounce(true) },
     ];
 
     const handleStatClick = (title) => {
@@ -20,6 +24,24 @@ const Dashboard = () => {
         if (title === 'On Leave') navigate('/leaves');
         if (title === 'Payroll Status') addNotification('Payroll is processed on the 1st of every month.');
     };
+
+    const handleAnnounce = (e) => {
+        e.preventDefault();
+        addNotification(`📢 Announcement: ${inputVal}`);
+        setShowAnnounce(false);
+        setInputVal('');
+    }
+
+    const handleMeeting = (e) => {
+        e.preventDefault();
+        addNotification(`📅 Meeting scheduled for: ${inputVal}`);
+        setShowMeeting(false);
+        setInputVal('');
+    }
+
+    // Deduplicate notifications for display
+    const uniqueNotifications = Array.from(new Set(notifications.map(n => n.text)))
+        .map(text => notifications.find(n => n.text === text));
 
     return (
         <div className="fade-in">
@@ -43,11 +65,11 @@ const Dashboard = () => {
                         <button style={{ color: 'var(--primary-color)', background: 'none', border: 'none', fontWeight: '500', cursor: 'pointer' }}>View All</button>
                     </div>
                     <ul style={{ listStyle: 'none' }}>
-                        {notifications.slice(0, 5).map((note) => (
+                        {uniqueNotifications.slice(0, 5).map((note) => (
                             <li key={note.id} style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem', alignItems: 'flex-start' }}>
                                 <div style={{
                                     width: '36px', height: '36px', borderRadius: '50%',
-                                    backgroundColor: '#f1f5f9',
+                                    backgroundColor: 'rgba(255,255,255,0.5)', border: '1px solid white',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', flexShrink: 0
                                 }}>
                                     {note.text.includes('Leave') ? '📅' : note.text.includes('employee') ? '👤' : '🔔'}
@@ -69,12 +91,13 @@ const Dashboard = () => {
                                 key={action.label}
                                 onClick={action.action}
                                 style={{
-                                    padding: '1rem', backgroundColor: '#f8fafc', border: '1px solid var(--border-color)',
+                                    padding: '1rem', backgroundColor: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.6)',
                                     borderRadius: 'var(--radius-md)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem',
-                                    cursor: 'pointer', transition: '0.2s', fontWeight: '500', color: 'var(--text-main)'
+                                    cursor: 'pointer', transition: '0.2s', fontWeight: '500', color: 'var(--text-main)',
+                                    backdropFilter: 'blur(5px)'
                                 }}
                                 onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--primary-color)'; e.currentTarget.style.color = 'white'; }}
-                                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#f8fafc'; e.currentTarget.style.color = 'var(--text-main)'; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.6)'; e.currentTarget.style.color = 'var(--text-main)'; }}
                             >
                                 <action.icon size={20} />
                                 <span style={{ fontSize: '0.85rem' }}>{action.label}</span>
@@ -83,6 +106,35 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Modals */}
+            {(showAnnounce || showMeeting) && (
+                <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
+                    <div className="card-panel fade-in" style={{ width: '400px' }}>
+                        <h3 style={{ marginBottom: '1rem' }}>{showAnnounce ? 'Make Announcement' : 'Schedule Meeting'}</h3>
+                        <form onSubmit={showAnnounce ? handleAnnounce : handleMeeting}>
+                            {showAnnounce ? (
+                                <textarea
+                                    required autoFocus
+                                    style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #ccc', minHeight: '100px', marginBottom: '1rem', fontFamily: 'inherit' }}
+                                    placeholder="Type your announcement here..."
+                                    value={inputVal} onChange={e => setInputVal(e.target.value)}
+                                />
+                            ) : (
+                                <input
+                                    type="datetime-local" required
+                                    style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #ccc', marginBottom: '1rem', fontFamily: 'inherit' }}
+                                    value={inputVal} onChange={e => setInputVal(e.target.value)}
+                                />
+                            )}
+                            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
+                                <button type="button" onClick={() => { setShowAnnounce(false); setShowMeeting(false); }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)' }}>Cancel</button>
+                                <button type="submit" className="btn-primary">{showAnnounce ? 'Post' : 'Schedule'}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

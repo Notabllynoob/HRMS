@@ -53,10 +53,10 @@ const Employees = () => {
                 </button>
             </div>
 
-            <div className="card-panel" style={{ overflowX: 'auto', maxHeight: 'calc(100vh - 250px)', overflowY: 'auto' }}>
+            <div className="card-panel" style={{ overflowX: 'auto', maxHeight: 'calc(100vh - 200px)', overflowY: 'auto', padding: 0 }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                    <thead style={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 10 }}>
-                        <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
+                    <thead style={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 10, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                        <tr style={{ borderBottom: '1px solid var(--border-color)', backgroundColor: 'white' }}>
                             <th style={{ padding: '1rem', color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase' }}>Employee</th>
                             <th style={{ padding: '1rem', color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase' }}>Role</th>
                             <th style={{ padding: '1rem', color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase' }}>Department</th>
