@@ -1,3 +1,8 @@
+## Deployed Link
+[HRMS](https://695972918870fd490ea4e90f--stirring-malasada-ae77e8.netlify.app/)
+
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
