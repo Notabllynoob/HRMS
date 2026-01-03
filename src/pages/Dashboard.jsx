@@ -18,7 +18,6 @@ const Dashboard = () => {
                         <h3 style={{ fontSize: '1.1rem', fontWeight: '600' }}>Recent Activity</h3>
                         <button style={{ color: 'var(--primary-color)', background: 'none', border: 'none', fontWeight: '500', cursor: 'pointer' }}>View All</button>
                     </div>
-                    {/* Simplified Activity List */}
                     <ul style={{ listStyle: 'none' }}>
                         {[
                             { text: 'Sarah Jenkins joined as Senior Designer', time: '2 hours ago', type: 'add' },

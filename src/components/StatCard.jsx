@@ -51,4 +51,4 @@ const StatCard = ({ title, number, trend, trendLabel, icon: Icon, colorClass }) 
     );
 };
 
-export default StatCard; // Fixed export
+export default StatCard;

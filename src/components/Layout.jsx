@@ -8,10 +8,8 @@ const Layout = () => {
         <div className="flex h-screen bg-[#f3f4f6]" style={{ display: 'grid', gridTemplateColumns: '260px 1fr', height: '100vh' }}>
             <Sidebar />
             <main className="flex flex-col h-full overflow-hidden">
-                {/* Top Header */}
                 <header className="flex justify-between items-center py-6 px-8 bg-transparent" style={{ padding: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                        {/* Dynamic Header could go here or in pages */}
                         <h1 style={{ fontSize: '1.75rem', fontWeight: '700', color: 'var(--text-main)' }}>Nexus HR</h1>
                         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Welcome back, Admin</p>
                     </div>
@@ -45,7 +43,6 @@ const Layout = () => {
                     </div>
                 </header>
 
-                {/* Content Area */}
                 <div style={{ padding: '0 2rem 2rem 2rem', overflowY: 'auto', flex: 1 }}>
                     <Outlet />
                 </div>

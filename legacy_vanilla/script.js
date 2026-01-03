@@ -1,4 +1,3 @@
-// DOM Elements
 const navLinks = document.querySelectorAll('.nav-links li');
 const modalOverlay = document.getElementById('modal-overlay');
 const closeModalBtns = document.querySelectorAll('.close-modal');
@@ -7,12 +6,9 @@ const pageHeader = document.getElementById('page-header');
 const pageSubtitle = document.getElementById('page-subtitle');
 const appContent = document.getElementById('app-content');
 
-// Navigation Logic
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
-        // Remove active class from all
         navLinks.forEach(l => l.classList.remove('active'));
-        // Add active to clicked
         link.classList.add('active');
 
         const page = link.getAttribute('data-page');
@@ -20,7 +16,6 @@ navLinks.forEach(link => {
     });
 });
 
-// Mock Database
 const employees = [
     { id: 1, name: "Sarah Jenkins", role: "Senior Designer", dept: "Design", email: "sarah@nexus.com", status: "Active" },
     { id: 2, name: "Mike Ross", role: "Software Engineer", dept: "Engineering", email: "mike@nexus.com", status: "On Leave" },
@@ -30,7 +25,6 @@ const employees = [
 ];
 
 function loadPage(page) {
-    // Fade out current content
     appContent.classList.remove('fade-in');
 
     setTimeout(() => {
@@ -54,7 +48,6 @@ function updateHeader(title, subtitle) {
 
 function loadDashboard() {
     updateHeader("Dashboard", "Overview of your organization's health");
-    // Re-inject the dashboard HTML (simplified for prototype, usually this is persistent or re-fetched)
     appContent.innerHTML = `
     <div class="dashboard-view fade-in">
         <div class="stats-grid">
@@ -181,7 +174,6 @@ function loadLeaves() {
         
         <div class="card-panel">
             <div class="card-header"><h3>Leave Requests</h3></div>
-             <!-- Reusing table style -->
              <table class="data-table">
                 <thead>
                     <tr>
@@ -210,7 +202,6 @@ function loadLeaves() {
 }
 
 
-// Modal Logic
 function openAddEmployeeModal() {
     modalOverlay.classList.remove('hidden');
 }
@@ -227,14 +218,9 @@ modalOverlay.addEventListener('click', (e) => {
     }
 });
 
-// Form Submission
 employeeForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    // In a real app, gather data and API call
     alert("Employee added successfully! (Prototype)");
     modalOverlay.classList.add('hidden');
     employeeForm.reset();
-
-    // Refresh list if on employee page
-    // if active page is employees... logic 
 });

@@ -29,7 +29,6 @@ const Attendance = () => {
                         </div>
                         <span style={{ fontWeight: '600', color: 'var(--success)' }}>On Time</span>
                     </div>
-                    {/* Mock previous entries */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', backgroundColor: 'white', borderBottom: '1px solid #f1f5f9' }}>
                         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                             <div style={{ padding: '0.5rem', backgroundColor: '#dcfce7', borderRadius: '50%', color: '#166534' }}><CheckCircle size={18} /></div>
