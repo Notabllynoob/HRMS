@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import { Plus, Search, Trash2, Edit } from 'lucide-react';
+import { useData } from '../context/DataContext';
 
 const Employees = () => {
+    const { employees, addEmployee, deleteEmployee } = useData();
     const [showModal, setShowModal] = useState(false);
-    const [employees, setEmployees] = useState([
-        { id: 1, name: "Sarah Jenkins", role: "Senior Designer", dept: "Design", email: "sarah@nexus.com", status: "Active" },
-        { id: 2, name: "Mike Ross", role: "Software Engineer", dept: "Engineering", email: "mike@nexus.com", status: "On Leave" },
-        { id: 3, name: "Jessica Pearson", role: "Head of HR", dept: "HR", email: "jessica@nexus.com", status: "Active" },
-        { id: 4, name: "Harvey Specter", role: "Legal Consultant", dept: "Legal", email: "harvey@nexus.com", status: "Active" },
-        { id: 5, name: "Louis Litt", role: "Financial Analyst", dept: "Finance", email: "louis@nexus.com", status: "Active" },
-    ]);
+
+    // Form State
+    const [name, setName] = useState('');
+    const [role, setRole] = useState('');
+    const [dept, setDept] = useState('Engineering');
+    const [email, setEmail] = useState('');
 
     const handleAdd = (e) => {
         e.preventDefault();
-        alert("Employee added!");
+        addEmployee({ name, role, dept, email });
+        // Reset form
+        setName('');
+        setRole('');
+        setDept('Engineering');
+        setEmail('');
         setShowModal(false);
     };
 
@@ -67,7 +73,17 @@ const Employees = () => {
                                 <td style={{ padding: '1rem' }}>
                                     <div style={{ display: 'flex', gap: '0.5rem' }}>
                                         <button className="btn-icon" style={{ width: '32px', height: '32px' }}><Edit size={16} /></button>
-                                        <button className="btn-icon" style={{ width: '32px', height: '32px', color: 'var(--danger)' }}><Trash2 size={16} /></button>
+                                        <button
+                                            className="btn-icon"
+                                            style={{ width: '32px', height: '32px', color: 'var(--danger)' }}
+                                            onClick={() => {
+                                                if (window.confirm('Are you sure you want to delete this employee?')) {
+                                                    deleteEmployee(emp.id);
+                                                }
+                                            }}
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -76,6 +92,7 @@ const Employees = () => {
                 </table>
             </div>
 
+            {/* Modal */}
             {showModal && (
                 <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
                     <div className="card-panel fade-in" style={{ width: '500px', maxWidth: '90%' }}>
@@ -83,19 +100,48 @@ const Employees = () => {
                         <form onSubmit={handleAdd}>
                             <div style={{ marginBottom: '1rem' }}>
                                 <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>Full Name</label>
-                                <input type="text" required style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }} />
+                                <input
+                                    type="text"
+                                    required
+                                    value={name}
+                                    onChange={e => setName(e.target.value)}
+                                    style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}
+                                />
+                            </div>
+                            <div style={{ marginBottom: '1rem' }}>
+                                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>Email Address</label>
+                                <input
+                                    type="email"
+                                    required
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
+                                    style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}
+                                />
                             </div>
                             <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
                                 <div style={{ flex: 1 }}>
                                     <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>Role</label>
-                                    <input type="text" required style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }} />
+                                    <input
+                                        type="text"
+                                        required
+                                        value={role}
+                                        onChange={e => setRole(e.target.value)}
+                                        style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}
+                                    />
                                 </div>
                                 <div style={{ flex: 1 }}>
                                     <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>Department</label>
-                                    <select style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+                                    <select
+                                        value={dept}
+                                        onChange={e => setDept(e.target.value)}
+                                        style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}
+                                    >
                                         <option>Engineering</option>
                                         <option>HR</option>
                                         <option>Design</option>
+                                        <option>Finance</option>
+                                        <option>Legal</option>
+                                        <option>Marketing</option>
                                     </select>
                                 </div>
                             </div>
