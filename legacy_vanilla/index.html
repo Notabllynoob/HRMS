@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus HR | HRMS Platform</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <h2>Nexus HR</h2>
+            </div>
+            
+            <ul class="nav-links">
+                <li class="active" data-page="dashboard">
+                    <a href="#">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li data-page="employees">
+                    <a href="#">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Employees</span>
+                    </a>
+                </li>
+                <li data-page="attendance">
+                    <a href="#">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>Attendance</span>
+                    </a>
+                </li>
+                <li data-page="leaves">
+                    <a href="#">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        <span>Leaves</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="user-profile-mini">
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=6366f1&color=fff" alt="Profile">
+                <div class="user-info">
+                    <h4>Admin User</h4>
+                    <p>HR Manager</p>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="page-title">
+                    <h1 id="page-header">Dashboard</h1>
+                    <p id="page-subtitle">Overview of your organization's health</p>
+                </div>
+                
+                <div class="top-actions">
+                    <div class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search..." id="global-search">
+                    </div>
+                    <button class="icon-btn notification-btn">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge">3</span>
+                    </button>
+                    <button class="icon-btn settings-btn">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-wrapper" id="app-content">
+                <!-- Dynamic Content will be loaded here -->
+                
+                <!-- Dashboard Content (Default) -->
+                <div class="dashboard-view fade-in">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon purple">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Employees</h3>
+                                <p class="number">124</p>
+                                <span class="trend up">+4% <span class="text">this month</span></span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon orange">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Open Positions</h3>
+                                <p class="number">8</p>
+                                <span class="trend down">-2 <span class="text">filled recently</span></span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <i class="fa-solid fa-clipboard-user"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>On Leave</h3>
+                                <p class="number">12</p>
+                                <span class="trend neutral">Normal rate</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="fa-solid fa-money-bill-wave"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Payroll Status</h3>
+                                <p class="number">Done</p>
+                                <span class="trend up">Paid on 1st</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-split">
+                        <div class="recent-activity card-panel">
+                            <div class="card-header">
+                                <h3>Recent Activity</h3>
+                                <button class="more-btn">View All</button>
+                            </div>
+                            <ul class="activity-list">
+                                <li class="activity-item">
+                                    <div class="activity-icon add">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>Sarah Jenkins</strong> joined as Senior Designer</p>
+                                        <span class="time">2 hours ago</span>
+                                    </div>
+                                </li>
+                                <li class="activity-item">
+                                    <div class="activity-icon leave">
+                                        <i class="fa-solid fa-plane"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>Mike Ross</strong> requested sick leave</p>
+                                        <span class="time">5 hours ago</span>
+                                    </div>
+                                </li>
+                                <li class="activity-item">
+                                    <div class="activity-icon review">
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p>Performance reviews completed for <strong>Engineering</strong></p>
+                                        <span class="time">1 day ago</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="quick-links card-panel">
+                             <div class="card-header">
+                                <h3>Quick Actions</h3>
+                            </div>
+                            <div class="action-grid">
+                                <button class="action-btn" onclick="openAddEmployeeModal()">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                    <span>Add Staff</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fa-solid fa-file-contract"></i>
+                                    <span>Generate Report</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fa-solid fa-calendar-plus"></i>
+                                    <span>Team Meeting</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fa-solid fa-bullhorn"></i>
+                                    <span>Announce</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal-container slide-up">
+            <div class="modal-header">
+                <h3 id="modal-title">Add New Employee</h3>
+                <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="employee-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="e.g. John Doe" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Role</label>
+                            <input type="text" placeholder="e.g. Product Manager" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Department</label>
+                            <select>
+                                <option>Engineering</option>
+                                <option>Design</option>
+                                <option>Marketing</option>
+                                <option>HR</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="john@company.com" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel close-modal">Cancel</button>
+                        <button type="submit" class="btn-primary">Create Employee</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
