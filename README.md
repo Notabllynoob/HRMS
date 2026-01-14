@@ -1,5 +1,5 @@
 ## Deployed Link
-[HRMS](https://695972918870fd490ea4e90f--stirring-malasada-ae77e8.netlify.app/)
+[HRMS Portal](https://6967850f8e175b8f1db668a9--cluecorphrms.netlify.app/login)
 
 
 
