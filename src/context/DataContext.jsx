@@ -6,7 +6,7 @@ export const useData = () => useContext(DataContext);
 
 const INITIAL_EMPLOYEES = [
     { id: 0, name: "Pradhyudh", role: "Founder", dept: "Management", email: "pradhyudh@cluecorp.com", status: "Active" },
-    { id: 1, name: "Shibe", role: "Co-Founder", dept: "Management", email: "shibe@cluecorp.com", status: "Active" },
+    { id: 1, name: "Shibe", role: "HR Director", dept: "HR", email: "shibe@cluecorp.com", status: "Active" },
     { id: 2, name: "Kai Hitwatari", role: "Chief Technology Officer", dept: "Engineering", email: "kai@cluecorp.com", status: "Active" },
     { id: 3, name: "Tyson", role: "Head of Operations", dept: "Operations", email: "tyson@cluecorp.com", status: "Active" },
     { id: 4, name: "Eren Yeager", role: "Head of Strategy", dept: "Strategy", email: "eren@cluecorp.com", status: "Active" },
