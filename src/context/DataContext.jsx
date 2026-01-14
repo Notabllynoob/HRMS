@@ -5,10 +5,11 @@ const DataContext = createContext();
 export const useData = () => useContext(DataContext);
 
 const INITIAL_EMPLOYEES = [
-    { id: 1, name: "Sarah Jenkins", role: "Senior Designer", dept: "Design", email: "sarah@cluecorp.com", status: "Active" },
-    { id: 2, name: "Mike Ross", role: "Software Engineer", dept: "Engineering", email: "mike@cluecorp.com", status: "On Leave" },
-    { id: 3, name: "Jessica Pearson", role: "Head of HR", dept: "HR", email: "jessica@cluecorp.com", status: "Active" },
-    { id: 4, name: "Harvey Specter", role: "Legal Consultant", dept: "Legal", email: "harvey@cluecorp.com", status: "Active" },
+    { id: 0, name: "Pradhyudh", role: "Founder", dept: "Management", email: "pradhyudh@cluecorp.com", status: "Active" },
+    { id: 1, name: "Shibe", role: "Co-Founder", dept: "Management", email: "shibe@cluecorp.com", status: "Active" },
+    { id: 2, name: "Kai Hitwatari", role: "Chief Technology Officer", dept: "Engineering", email: "kai@cluecorp.com", status: "Active" },
+    { id: 3, name: "Tyson", role: "Head of Operations", dept: "Operations", email: "tyson@cluecorp.com", status: "Active" },
+    { id: 4, name: "Eren Yeager", role: "Head of Strategy", dept: "Strategy", email: "eren@cluecorp.com", status: "Active" },
     { id: 5, name: "Louis Litt", role: "Financial Analyst", dept: "Finance", email: "louis@cluecorp.com", status: "Active" },
 ];
 
@@ -54,7 +55,7 @@ export const DataProvider = ({ children }) => {
         ]);
     }, []);
 
-    const markAttendance = (type, empId = 1) => { // type: 'in' or 'out', default to current user (admin = id 1)
+    const markAttendance = (type, empId = 0) => { // type: 'in' or 'out', default to current user (admin = id 0)
         const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
         setAttendance(prev => {

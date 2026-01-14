@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, CheckCircle, LogOut } from 'lucide-react';
 import { useData } from '../context/DataContext';
+import { useAuth } from '../context/AuthContext';
 
 const Attendance = () => {
     const { employees, attendance, markAttendance, updateEmployeeAttendance } = useData();
+    const { user } = useAuth();
+    // Default to 0 (Pradhyudh) if no user logged in, or handle empty state
+    const currentUserId = user ? user.id : 0;
+
     const [currentTime, setCurrentTime] = useState(new Date());
 
     useEffect(() => {
@@ -15,7 +20,7 @@ const Attendance = () => {
         return date.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' });
     };
 
-    const myAttendance = attendance[1] || { status: 'Absent', sessions: [] }; // Assuming Admin is ID 1
+    const myAttendance = attendance[currentUserId] || { status: 'Absent', sessions: [] };
 
     return (
         <div className="fade-in">
@@ -30,7 +35,7 @@ const Attendance = () => {
 
                     {myAttendance.status === 'Present' ? (
                         <button
-                            onClick={() => markAttendance('out')}
+                            onClick={() => markAttendance('out', currentUserId)}
                             className="btn-primary"
                             style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '0.85rem', backgroundColor: 'var(--danger)', borderColor: 'var(--danger)' }}
                         >
@@ -38,7 +43,7 @@ const Attendance = () => {
                         </button>
                     ) : (
                         <button
-                            onClick={() => markAttendance('in')}
+                            onClick={() => markAttendance('in', currentUserId)}
                             className="btn-primary"
                             style={{ width: '100%', justifyContent: 'center', fontSize: '1rem', padding: '0.85rem' }}
                         >

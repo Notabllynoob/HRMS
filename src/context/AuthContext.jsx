@@ -26,11 +26,11 @@ export const AuthProvider = ({ children }) => {
             setTimeout(() => {
                 if (email && password) {
                     const mockUser = {
-                        id: 'admin_001',
-                        name: 'Admin User',
+                        id: 0,
+                        name: 'Pradhyudh',
                         email: email,
-                        role: 'HR Manager',
-                        avatar: `https://ui-avatars.com/api/?name=Admin+User&background=6366f1&color=fff`
+                        role: 'Founder',
+                        avatar: `https://ui-avatars.com/api/?name=Pradhyudh&background=6366f1&color=fff`
                     };
                     setUser(mockUser);
                     localStorage.setItem('hrms_user', JSON.stringify(mockUser));
